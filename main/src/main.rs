@@ -13,6 +13,17 @@ struct Account {
     balance: f64
 }
 
+impl Account {
+    fn print_information(&self){
+        println!(
+            "Name {} last name {} balance {}", 
+            self.owner.first_name, 
+            self.owner.last_name, 
+            self.balance
+        );
+    }
+}
+
 fn test () {
     let owner = Owner {
         first_name: String::from("Rodrigo"),
@@ -22,12 +33,7 @@ fn test () {
         owner,
         balance: 3000.0
     };
-    println!(
-        "Name {} last name {} balance {}", 
-        account.owner.first_name, 
-        account.owner.last_name, 
-        account.balance
-    );
+    account.print_information();
 }
 
 fn main() {
