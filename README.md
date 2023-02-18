@@ -14,6 +14,18 @@
     This is a directory wich i use to test commands and instructions, nothing special
   </pre>
 </p>
+<h2>http_request</h2>
+<p>
+  <pre>
+    Just a directory with AI generated code to see a http request with a TCP socket handler
+  </pre>
+</p>
+<h2>privacy</h2>
+<p>
+  <pre>
+    A directory made to test Rust's language book modules things in (chapter 7)
+  </pre>
+</p>
 <h2>guessing_game</h2>
 <p>
   <pre>
