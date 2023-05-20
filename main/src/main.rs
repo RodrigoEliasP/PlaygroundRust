@@ -1,5 +1,7 @@
 #![allow(dead_code)]
 
+use std::{time::Instant};
+
 fn quadratic_formula(a: f32, b:f32, c: f32) -> (f32, f32) {
     let discriminant = b.powf(2.0) - 4.0 * a * c;
     let x1 = (-b + discriminant.sqrt()) / (2.0 * a);
@@ -75,10 +77,28 @@ fn control_flow() {
     }
 }
 
+fn searches_test() {
+    let mut v = (0..(1e9 as i64)).collect();
+    fn test_binary_search(vec: Vec<i64>) -> Vec<i64>{
+        let timer = Instant::now();
+        let position = vec.binary_search(&(1e6 as i64)).unwrap();
+        println!("binary: the position of 1m is {} found in {:?}", position, timer.elapsed());
+        vec
+    }
+    fn test_linear_search(vec: Vec<i64>) -> Vec<i64> {
+        let timer = Instant::now();
+        let position = vec.iter().position(|&x| x == 1e6 as i64).unwrap();
+        println!("linear: the position of 1m is {} found in {:?}", position, timer.elapsed());
+        vec
+    }
+    v = test_binary_search(v);
+    test_linear_search(v);
+}
+
 fn main() {
     // let (x1, x2) = quadratic_formula(1.0, -3.0, 2.0);
     // println!("Quadratic formula roots are x1: {x1} and x2: {x2}");
     // test();
     // mutability()
-    control_flow();
+    searches_test();
 }

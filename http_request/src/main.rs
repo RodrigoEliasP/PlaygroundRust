@@ -9,7 +9,7 @@ fn handle_client(mut stream: &TcpStream) {
     println!("Request: {}", request);
 
     let response = "HTTP/1.1 200 OK\r\n\r\nHello, World!";
-
+    Vec::from([2,2]);
     stream.write(response.as_bytes()).unwrap();
     stream.flush().unwrap();
 }
@@ -19,7 +19,6 @@ fn main() {
 
     for stream in listener.incoming() {
         let stream = stream.unwrap();
-
         handle_client(&stream);
     }
 }
