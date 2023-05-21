@@ -8,10 +8,11 @@
 </p>
 
 # Directories
+
 <h2>main</h2>
 <p>
   <pre>
-    This is a directory wich i use to test commands and instructions, nothing special
+    This is a directory that I use to test rust's generic stuff, nothing special
   </pre>
 </p>
 <h2>http_request</h2>
