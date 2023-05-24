@@ -1,3 +1,5 @@
+use std::fmt::{Display, write};
+
 struct Owner{
     first_name: String,
     last_name: String,
@@ -35,7 +37,7 @@ struct Node< T> {
     data: T
 }
 
-struct LinkedList<T> {
+pub struct LinkedList<T> {
     start: Option<Box<Node<T>>>,
     qtd: u32,
 }
@@ -74,5 +76,35 @@ impl<T> LinkedList<T> {
             }
         }
         index
+    }
+}
+impl <T> LinkedList<T> 
+where 
+    T: ToString,
+{
+    fn print_node(&self, node: Option<&Node<T>>) -> String {
+        if node.is_none() {
+            return "".to_owned();
+        }
+        let current = node.expect("current node to be already validated");
+
+        let mut str = current.data.to_string();
+        str.push_str(&self.print_node(current.next.as_deref()));
+        str
+    }
+    pub fn print_nodes(&self) -> String {
+        let current = match self.start.as_deref() {
+            Some(n) => Some(n),
+            None => None,
+        };
+        self.print_node(current)
+    }
+}
+impl<T> Display for LinkedList<T>
+where 
+    T: ToString, 
+{
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", &self.print_nodes())
     }
 }
