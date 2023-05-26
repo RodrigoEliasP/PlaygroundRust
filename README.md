@@ -21,6 +21,12 @@
     Just a directory with AI generated code to see a http request with a TCP socket handler
   </pre>
 </p>
+<h2>adder</h2>
+<p>
+  <pre>
+    a folder used to learn automated teste concepts shown in chapter 11 on rustlang book
+  </pre>
+</p>
 <h2>privacy</h2>
 <p>
   <pre>
