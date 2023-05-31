@@ -53,13 +53,17 @@ impl<T> LinkedList<T> {
             printing_separator: ';'
         };
         
-        LinkedList { start: None, qtd: 1, config: default_config }
+        LinkedList { start: None, qtd: 0, config: default_config }
     }
     fn new_node(&mut self,data: T) -> Node<T> {
         Node {
             next: None,
             data
         }
+    }
+
+    pub fn get_size(&self) -> u32 {
+        self.qtd
     }
 
     pub fn change_config(&mut self, config: LinkedListConfig) {

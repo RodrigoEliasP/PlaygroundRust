@@ -17,6 +17,7 @@ mod tests {
                 list.insert(2);
                 list.insert(20);
                 assert_eq!(list.to_string(), "10;2;20".to_owned());
+                assert_eq!(list.get_size(), 3);
             }
         }
     }
