@@ -40,18 +40,30 @@ struct Node< T> {
 pub struct LinkedList<T> {
     start: Option<Box<Node<T>>>,
     qtd: u32,
+    config: LinkedListConfig,
+}
+
+pub struct LinkedListConfig {
+    printing_separator: char,
 }
 
 impl<T> LinkedList<T> {
     pub const fn new<'a>() -> Self {
+        let default_config = LinkedListConfig {
+            printing_separator: ';'
+        };
         
-        LinkedList { start: None, qtd: 1 }
+        LinkedList { start: None, qtd: 1, config: default_config }
     }
     fn new_node(&mut self,data: T) -> Node<T> {
         Node {
             next: None,
             data
         }
+    }
+
+    pub fn change_config(&mut self, config: LinkedListConfig) {
+        self.config = config;
     }
     pub fn insert(&mut self, data: T) -> u32 {
         let index = self.qtd;
@@ -89,6 +101,7 @@ where
         let current = node.expect("current node to be already validated");
 
         let mut str = current.data.to_string();
+        str.push_str(";");
         str.push_str(&self.print_node(current.next.as_deref()));
         str
     }
@@ -97,7 +110,10 @@ where
             Some(n) => Some(n),
             None => None,
         };
-        self.print_node(current)
+        let str = self.print_node(current);
+        str.strip_suffix(
+            self.config.printing_separator
+        ).expect("string without suffix").to_owned()
     }
 }
 impl<T> Display for LinkedList<T>

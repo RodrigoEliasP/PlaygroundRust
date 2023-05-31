@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 #![allow(unused_imports)]
 mod modules;
+mod tests;
 
 use std::{time::Instant};
 use modules::quadratic_formula::quadratic_formula;
