@@ -1,4 +1,4 @@
-use std::fmt::{Display, write};
+use std::{fmt::{Display, write}, error::Error};
 
 struct Owner{
     first_name: String,
@@ -47,7 +47,7 @@ pub struct LinkedListConfig {
     printing_separator: char,
 }
 
-impl<T> LinkedList<T> {
+impl<'i, T> LinkedList<T> {
     pub const fn new<'a>() -> Self {
         let default_config = LinkedListConfig {
             printing_separator: ';'
@@ -92,6 +92,24 @@ impl<T> LinkedList<T> {
             }
         }
         index
+    }
+    pub fn find<'a>(&'a self, comparator: fn(&T) -> bool) -> Result<&'a T, String> {
+        let mut current = self.start.as_deref();
+        
+        loop {
+            match current {
+                Some(node) => {
+                    let value = &node.data;
+                    if comparator(value) {
+                        return Ok(value);
+                    };
+                    current = node.next.as_deref();
+                },
+                None => {
+                    return Err("Not found".to_owned())
+                },
+            }
+        }
     }
 }
 impl <T> LinkedList<T> 
