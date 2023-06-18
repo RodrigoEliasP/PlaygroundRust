@@ -111,46 +111,6 @@ impl<'i, T> LinkedList<T> {
             }
         }
     }
-
-    pub fn delete(&mut self, comparator: fn(&T) -> bool) -> Result<i32, String> {
-        let current = &mut self.start;
-        let mut i = 0;
-
-        if self.qtd < 1 {
-            return Err("There's no element in this list".to_owned())
-        }
-
-        if comparator(&current.as_ref().unwrap().data){
-            let Some(node) = current.take() else {
-                panic!("Error");
-            };
-            self.start = node.next;
-            return Ok(0);
-        }
-        let mut current: *mut Node<T> = current.as_deref_mut().unwrap();
-        let mut last_node = current; 
-        loop {
-            let value = &(unsafe {*current}).data;
-            if !comparator(value) {
-                last_node = current;
-                match &(unsafe {*last_node}).next {
-                     Some(node) => {
-                        current = Box::into_raw(*node);
-                        i += 1;
-                        continue;
-                    }
-                    None => { break; }
-                }
-                
-            }
-    
-            (unsafe {*last_node}).next = (unsafe {*current}).next;
-    
-            return Ok(i);
-        }
-    
-        Err("Not found".to_owned())
-    }
 }
 impl <T> LinkedList<T> 
 where 
