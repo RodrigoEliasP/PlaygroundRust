@@ -1,0 +1,6 @@
+    Finished dev [unoptimized + debuginfo] target(s) in 0.00s
+     Running `target/debug/minigrep`
+Problem passing arguments: not enough arguments
+    Finished dev [unoptimized + debuginfo] target(s) in 0.00s
+     Running `target/debug/minigrep`
+Problem passing arguments: not enough arguments
