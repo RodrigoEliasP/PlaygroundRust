@@ -20,41 +20,65 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn build(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("not enough arguments");
-        }
-        let query = args[1].clone();
-        let file_path = args[2].clone();
+    pub fn build(
+        mut args: impl Iterator<Item = String>,
+    ) -> Result<Config, &'static str> {
+        args.next();
+
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("There is no query string!"),
+        };
+
+        let file_path = match args.next() {
+            Some(arg) => arg,
+            None => return Err("There is no file for search"),
+        };
+
         let ignore_case = env::var("IGNORE_CASE").is_ok();
+        
         Ok(Config { query, file_path, ignore_case })
     }
 }
 
 pub fn search_case_sensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let mut result = Vec::new();
-    for line in contents.lines() {
-        if line.contains(query) {
-            result.push(line);
-        }
-    }
-    result
+    contents
+        .lines()
+        .filter(|line| line.contains(query) )
+        .collect()
 }
 
 pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let query = query.to_lowercase();
-    let mut result = Vec::new();
-    for line in contents.lines() {
-        if line.to_lowercase().contains(&query) {
-            result.push(line);
-        }
-    }
-    result
+    contents
+        .lines()
+        .filter(|line| line.to_lowercase().contains(&query.to_lowercase()) )
+        .collect()
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn config_parse_is_working () {
+        let file = "file".to_owned();
+        let query: String = "query".to_owned(); 
+
+        let test_subject = vec!["path".to_owned(), query.clone(), file.clone()];
+
+        let config = Config::build(test_subject.into_iter()).unwrap();
+
+        let expect = Config {
+            file_path: file,
+            query: query,
+            ignore_case: false
+        };
+
+        assert_eq!(config.file_path, expect.file_path);
+        assert_eq!(config.query, expect.query);
+        assert_eq!(config.ignore_case, expect.ignore_case);
+
+    }
 
     #[test]
     fn case_sensitive() {
